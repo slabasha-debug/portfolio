@@ -1,0 +1,2229 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sabou Sasha | Web Developer</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* CSS Variables & Global Settings */
+        :root {
+            --bg-color: #0D0D0D;
+            --surface-color: #1A1A1A;
+            --surface-hover: #262626;
+            --primary: #7C3AED;      /* Electric Violet */
+            --primary-light: #A78BFA; /* Soft Violet Glow */
+            --text-main: #FFFFFF;
+            --text-muted: #A3A3A3;
+            --border-color: rgba(255, 255, 255, 0.1);
+            
+            --font-heading: 'Space Grotesk', sans-serif;
+            --font-body: 'Inter', sans-serif;
+            
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Resets & Base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: var(--font-body);
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            cursor: none; /* For custom cursor */
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+            cursor: pointer; /* Keep pointer logic for touch/fallback */
+        }
+
+        button {
+            font-family: inherit;
+            border: none;
+            background: none;
+            cursor: pointer;
+        }
+        
+        button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible {
+            outline: 2px solid var(--primary-light);
+            outline-offset: 2px;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Typography */
+        h1, h2, h3, h4 {
+            font-family: var(--font-heading);
+            font-weight: 700;
+            line-height: 1.2;
+        }
+        
+        .section-title {
+            font-size: clamp(2rem, 5vw, 3rem);
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto 4rem;
+            font-size: 1.1rem;
+        }
+
+        .section-padding {
+            padding: 6rem 0;
+        }
+
+        @media (max-width: 576px) {
+            .section-padding { padding: 4rem 0; }
+            .section-subtitle { margin-bottom: 2.5rem; }
+        }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-color);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary);
+        }
+
+        /* Progress Bar */
+        #scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: var(--primary);
+            width: 0%;
+            z-index: 10000;
+            transition: width 0.1s;
+        }
+
+        /* Custom Cursor */
+        .cursor-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--primary-light);
+            border-radius: 50%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 9999;
+            transition: width 0.2s, height 0.2s, background-color 0.2s;
+        }
+
+        .cursor-dot.hover {
+            width: 24px;
+            height: 24px;
+            background-color: rgba(167, 139, 250, 0.3);
+            border: 1px solid var(--primary-light);
+        }
+
+        /* Responsive hiding of cursor logic */
+        @media (max-width: 768px) {
+            body { cursor: auto; }
+            .cursor-dot { display: none; }
+        }
+
+        /* Fade-in Animation Classes */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            font-family: var(--font-heading);
+            font-weight: 700;
+            border-radius: 50px;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            color: var(--text-main);
+            box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3);
+        }
+        .btn-primary:hover {
+            background-color: #6D28D9;
+            box-shadow: 0 6px 20px rgba(124, 58, 237, 0.5);
+            transform: translateY(-2px);
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            color: var(--text-main);
+            border: 1px solid var(--text-main);
+        }
+        .btn-outline:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        /* Navbar */
+        .navbar {
+            position: fixed;
+            top: 0; left: 0; width: 100%;
+            padding: 1.5rem 0;
+            z-index: 1000;
+            transition: padding 0.3s, background-color 0.3s, backdrop-filter 0.3s;
+        }
+        
+        .navbar.scrolled {
+            padding: 1rem 0;
+            background-color: rgba(13, 13, 13, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+        
+        .nav-link {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            transition: color 0.3s;
+        }
+        .nav-link:hover {
+            color: var(--text-main);
+        }
+
+        /* Lang Toggle */
+        .lang-toggle {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--surface-color);
+            border: 1px solid var(--border-color);
+            padding: 0.4rem;
+            border-radius: 20px;
+        }
+        .lang-btn {
+            padding: 0.3rem 0.6rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            transition: var(--transition);
+        }
+        .lang-btn.active {
+            background: var(--primary);
+            color: var(--text-main);
+        }
+        
+        .hamburger {
+            display: none;
+            font-size: 1.5rem;
+            color: var(--text-main);
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 100%;
+                height: 100vh;
+                background-color: var(--bg-color);
+                flex-direction: column;
+                justify-content: center;
+                transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+            .nav-links.active {
+                right: 0;
+            }
+            .nav-link { font-size: 1.5rem; }
+            .hamburger { display: block; z-index: 1001; }
+            .lang-toggle { position: absolute; top: 1.5rem; right: 5rem; z-index: 1001;}
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            padding-top: 80px;
+            overflow: hidden;
+        }
+
+        /* Animated Blob */
+        .hero-blob {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 60vw;
+            height: 60vw;
+            background: radial-gradient(circle, rgba(124, 58, 237, 0.15) 0%, rgba(13, 13, 13, 0) 70%);
+            transform: translate(-50%, -50%);
+            z-index: -1;
+            animation: pulseBlob 15s ease-in-out infinite alternate;
+            pointer-events: none;
+        }
+
+        @keyframes pulseBlob {
+            0% { transform: translate(-50%, -50%) scale(1) rotate(0deg); }
+            50% { transform: translate(-45%, -55%) scale(1.2) rotate(45deg); }
+            100% { transform: translate(-55%, -45%) scale(0.9) rotate(90deg); }
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            height: 100%;
+        }
+
+        .hero-greeting {
+            color: var(--primary-light);
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .hero-title {
+            font-size: clamp(3rem, 6vw, 5rem);
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #FFFFFF 0%, #A3A3A3 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-tagline {
+            font-size: clamp(1.1rem, 2vw, 1.4rem);
+            color: var(--text-muted);
+            margin-bottom: 2.5rem;
+            max-width: 600px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 2rem;
+            border-top: 1px solid var(--border-color);
+            padding-top: 2rem;
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .stat-item i {
+            color: var(--primary);
+        }
+
+        /* Fake Code Editor Block */
+        .code-window {
+            background: #111111;
+            border: 1px solid #333;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            font-family: 'Fira Code', 'Courier New', Courier, monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .code-header {
+            background: #1A1A1A;
+            padding: 0.8rem 1rem;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid #333;
+        }
+
+        .code-dots {
+            display: flex;
+            gap: 6px;
+        }
+
+        .code-dots span {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .dot-r { background: #FF5F56; }
+        .dot-y { background: #FFBD2E; }
+        .dot-g { background: #27C93F; }
+
+        .code-tab {
+            margin: 0 auto;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+        }
+
+        .code-body {
+            padding: 1.5rem;
+            color: #d4d4d4;
+            overflow-x: auto;
+        }
+
+        .code-kw { color: #569CD6; } /* keyword blue */
+        .code-str { color: #CE9178; } /* string orange */
+        .code-obj { color: #4EC9B0; } /* object type */
+        .code-prop { color: #9CDCFE; } /* property light blue */
+        .code-comment { color: #6A9955; } /* comment green */
+        .code-punct { color: #D4D4D4; }
+
+        .cursor-blink {
+            display: inline-block;
+            width: 8px;
+            height: 15px;
+            background-color: var(--text-main);
+            animation: blink 1s step-end infinite;
+            vertical-align: middle;
+            margin-left: 2px;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        @media (max-width: 992px) {
+            .hero-grid {
+                grid-template-columns: 1fr;
+                text-align: center;
+                padding-top: 4rem;
+            }
+            .hero-stats, .hero-buttons {
+                justify-content: center;
+            }
+            .hero-tagline {
+                margin-left: auto;
+                margin-right: auto;
+            }
+            .hero-image {
+                display: none; /* Hide code window on smaller screens */
+            }
+        }
+        @media (max-width: 576px) {
+            .hero-buttons { flex-direction: column; align-items: stretch; }
+            .hero-buttons .btn { width: 100%; }
+            .hero-stats { flex-direction: column; gap: 1rem; align-items: center; }
+            .hero { padding-top: 100px; }
+        }
+
+        /* Projects Section */
+        .projects-section {
+            background-color: var(--surface-color);
+            position: relative;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .project-card {
+            border-radius: 20px;
+            padding: 3rem;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 450px;
+            transition: var(--transition);
+            border: 1px solid var(--border-color);
+        }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--card-bg, rgba(26,26,26,0.8));
+            opacity: 0.15;
+            z-index: 0;
+            transition: opacity 0.4s;
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(124, 58, 237, 0.2);
+            border-color: rgba(167, 139, 250, 0.4);
+        }
+
+        .project-card:hover::before {
+            opacity: 0.3;
+        }
+
+        .project-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .project-category {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            backdrop-filter: blur(4px);
+        }
+
+        .project-icon {
+            font-size: 1.5rem;
+            background: rgba(255,255,255,0.1);
+            width: 45px; height: 45px;
+            display: flex; align-items: center; justify-content: center;
+            border-radius: 50%;
+            backdrop-filter: blur(4px);
+        }
+
+        .project-title {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .project-desc {
+            color: rgba(255,255,255,0.85);
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+        }
+
+        .project-features {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .project-features li {
+            font-size: 0.85rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+            color: rgba(255,255,255,0.7);
+        }
+
+        .project-features li i {
+            color: var(--primary-light);
+            margin-top: 3px;
+        }
+
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .project-tags span {
+            background: rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 0.3rem 0.8rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+        }
+
+        .project-bottom {
+            position: relative;
+            z-index: 1;
+            margin-top: auto;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .project-result {
+            font-size: 0.8rem;
+            font-style: italic;
+            color: rgba(255,255,255,0.6);
+            opacity: 0.8;
+        }
+
+        @media (max-width: 900px) {
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+            .project-card {
+                padding: 2rem;
+            }
+        }
+
+        /* Services Section */
+        .services-section {
+            background-color: var(--bg-color);
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            align-items: center;
+            margin-top: 3rem;
+            margin-bottom: 4rem;
+        }
+
+        .pricing-card {
+            background: var(--surface-color);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 3rem 2rem;
+            text-align: center;
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255,255,255,0.2);
+        }
+
+        .pricing-card.best-value {
+            border-color: var(--primary);
+            box-shadow: 0 10px 40px rgba(124, 58, 237, 0.15);
+            padding: 4rem 2rem; /* Elevated */
+            background: linear-gradient(180deg, rgba(26,26,26,1) 0%, rgba(13,13,13,1) 100%);
+        }
+
+        .best-badge {
+            position: absolute;
+            top: 0; left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--primary);
+            color: #fff;
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .pricing-name {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary-light);
+        }
+
+        .pricing-price {
+            font-size: 3rem;
+            font-family: var(--font-heading);
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .pricing-price span {
+            font-size: 1rem;
+            color: var(--text-muted);
+            font-weight: 400;
+        }
+
+        .pricing-desc {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+            height: 60px;
+        }
+
+        .pricing-features {
+            list-style: none;
+            margin-bottom: 2.5rem;
+            text-align: left;
+        }
+
+        .pricing-features li {
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .pricing-features li i {
+            color: #27C93F; /* Green check */
+        }
+
+        .pricing-time {
+            display: inline-block;
+            background: rgba(255,255,255,0.05);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            margin-bottom: 2rem;
+            color: var(--text-muted);
+        }
+
+        .pricing-btn {
+            width: 100%;
+        }
+
+        /* Comparison Table */
+        .compare-section {
+            background: var(--surface-color);
+            border-radius: 20px;
+            padding: 3rem;
+            margin-bottom: 4rem;
+        }
+
+        .compare-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 1.5rem;
+        }
+
+        .compare-table-wrapper {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            border-radius: 8px;
+        }
+
+        .compare-table {
+            width: 100%;
+            min-width: 480px;
+            border-collapse: collapse;
+        }
+
+        .compare-table th, .compare-table td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color);
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        .compare-table th:first-child, .compare-table td:first-child {
+            text-align: left;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+
+        .compare-table th {
+            color: var(--text-main);
+            font-family: var(--font-heading);
+            font-size: 1.1rem;
+        }
+
+        /* FAQ Accordion */
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .faq-question {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 0;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-main);
+            text-align: left;
+            transition: color 0.3s;
+        }
+
+        .faq-question:hover {
+            color: var(--primary-light);
+        }
+
+        .faq-icon {
+            transition: transform 0.3s;
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out;
+            color: var(--text-muted);
+        }
+
+        .faq-answer-inner {
+            padding-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+
+        .faq-item.active .faq-question {
+            color: var(--primary-light);
+        }
+
+        .faq-item.active .faq-icon {
+            transform: rotate(180deg);
+        }
+
+        @media (max-width: 900px) {
+            .pricing-grid { grid-template-columns: 1fr; }
+            .pricing-card.best-value { padding: 3rem 2rem; }
+            .compare-section { padding: 2rem 1.5rem; }
+        }
+        @media (max-width: 480px) {
+            .compare-section { padding: 1.5rem 1rem; }
+        }
+
+        /* Skills Section */
+        .skills-section {
+            background-color: var(--surface-color);
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .skills-box {
+            background: var(--bg-color);
+            padding: 2.5rem;
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+        }
+
+        .skills-box:hover {
+            border-color: var(--primary-light);
+            transform: translateY(-5px);
+        }
+
+        .skills-cat {
+            color: var(--primary-light);
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .skills-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+        }
+
+        .skill-pill {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 0.5rem 1rem;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+
+        .skill-pill:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .skills-note {
+            margin-top: 4rem;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 2rem;
+            background: rgba(124, 58, 237, 0.05);
+            border-radius: 16px;
+            border: 1px dashed var(--primary);
+        }
+
+        /* About Section */
+        .about-section {
+            background-color: var(--bg-color);
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 5rem;
+            align-items: center;
+        }
+
+        .about-image-wrapper {
+            position: relative;
+        }
+
+        .about-img-wrapper {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 1;
+            border-radius: 30px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            border: 1px solid var(--border-color);
+        }
+        .about-profile-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        .about-profile-img:hover {
+            transform: scale(1.05);
+        }
+
+        /* Floating Badge for About */
+        .floating-badge {
+            position: absolute;
+            background: var(--surface-color);
+            border: 1px solid var(--border-color);
+            padding: 1rem;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            z-index: 2;
+            animation: float 4s ease-in-out infinite;
+        }
+
+        .badge-1 { top: -20px; right: -20px; animation-delay: 0s; }
+        .badge-2 { bottom: 40px; left: -30px; animation-delay: 2s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .about-content p {
+            margin-bottom: 1.5rem;
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        /* Timeline in About */
+        .timeline {
+            margin-top: 3rem;
+            position: relative;
+            padding-left: 2rem;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0; top: 0; width: 2px; height: 100%;
+            background: var(--border-color);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2rem;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: calc(-2rem - 5px); top: 8px;
+            width: 12px; height: 12px;
+            border-radius: 50%;
+            background: var(--primary);
+            box-shadow: 0 0 10px var(--primary);
+        }
+
+        .tm-year {
+            font-weight: 700;
+            color: var(--primary-light);
+            font-size: 0.9rem;
+            display: block;
+            margin-bottom: 0.3rem;
+        }
+
+        .tm-title {
+            font-weight: 600;
+            font-size: 1.05rem;
+        }
+
+        @media (max-width: 992px) {
+            .about-grid, .skills-grid { grid-template-columns: 1fr; }
+            .about-image-wrapper { order: 2; max-width: 400px; margin: 0 auto; }
+            .about-content { order: 1; text-align: center; }
+            .timeline { text-align: left; }
+        }
+        @media (max-width: 640px) {
+            .skills-grid { grid-template-columns: 1fr; }
+            .floating-badge { display: none; } /* Hide floating badges on small screens */
+        }
+
+        /* End About & Skills */
+        /* Contact Section */
+        .contact-section {
+            background-color: var(--surface-color);
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 4rem;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .contact-method {
+            display: flex;
+            align-items: flex-start;
+            gap: 1.5rem;
+        }
+
+        .contact-icon {
+            width: 50px; height: 50px;
+            background: rgba(124, 58, 237, 0.1);
+            border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            color: var(--primary-light);
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .contact-method h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .contact-method p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .contact-form {
+            background: var(--bg-color);
+            padding: 3rem;
+            border-radius: 24px;
+            border: 1px solid var(--border-color);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-muted);
+        }
+
+        .form-control {
+            width: 100%;
+            background: var(--surface-color);
+            border: 1px solid var(--border-color);
+            padding: 1rem;
+            border-radius: 12px;
+            color: white;
+            font-family: var(--font-body);
+            transition: var(--transition);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: #222;
+        }
+
+        textarea.form-control {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        /* Footer */
+        .footer {
+            padding: 4rem 0;
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+        }
+
+        .footer-logo {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            display: inline-block;
+        }
+
+        .footer-socials {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .social-link {
+            width: 40px; height: 40px;
+            border-radius: 50%;
+            background: var(--surface-color);
+            display: flex; align-items: center; justify-content: center;
+            transition: var(--transition);
+            border: 1px solid var(--border-color);
+        }
+
+        .social-link:hover {
+            background: var(--primary);
+            transform: translateY(-3px);
+            border-color: var(--primary);
+        }
+
+        .footer-copy {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .footer-note {
+            margin-top: 0.5rem;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            opacity: 0.6;
+        }
+
+        @media (max-width: 768px) {
+            .contact-grid { grid-template-columns: 1fr; }
+            .form-row { grid-template-columns: 1fr; gap: 0; }
+            .contact-form { padding: 2rem; }
+        }
+
+        /* Success State */
+        #form-success {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+        }
+        #form-success i {
+            font-size: 3rem;
+            color: #27C93F;
+            margin-bottom: 1.5rem;
+            display: block;
+            filter: drop-shadow(0 0 10px rgba(39, 201, 63, 0.4));
+        }
+        #form-success h3 {
+            font-size: 1.5rem;
+            line-height: 1.4;
+            color: var(--text-main);
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(20px);
+            transition: all 0.3s;
+            z-index: 999;
+            box-shadow: 0 4px 15px rgba(124, 58, 237, 0.4);
+        }
+        .back-to-top.visible {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(0);
+        }
+        .back-to-top:hover {
+            background-color: #6D28D9;
+            transform: translateY(-5px);
+        }
+    </style>
+</head>
+<body>
+
+    <div id="scroll-progress"></div>
+    <div class="cursor-dot" id="cursorDot"></div>
+
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="container nav-container">
+            <a href="#" class="logo" data-i18n="logo">Sabou Sasha</a>
+            
+            <div class="lang-toggle">
+                <button class="lang-btn active" onclick="setLang('ro')" id="btn-ro">RO</button>
+                <button class="lang-btn" onclick="setLang('en')" id="btn-en">EN</button>
+            </div>
+            
+            <button class="hamburger" id="hamburger" aria-label="Menu">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+            
+            <div class="nav-links" id="navLinks">
+                <a href="#proiecte" class="nav-link" data-i18n="nav_projects">Proiecte</a>
+                <a href="#servicii" class="nav-link" data-i18n="nav_services">Servicii</a>
+                <a href="#skills" class="nav-link" data-i18n="nav_skills">Competențe</a>
+                <a href="#despre" class="nav-link" data-i18n="nav_about">Despre</a>
+                <a href="#contact" class="nav-link" data-i18n="nav_contact">Contact</a>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Hero Section -->
+    <section class="hero" id="acasa">
+        <div class="hero-blob"></div>
+        <div class="container hero-grid">
+            <div class="hero-content fade-in">
+                <span class="hero-greeting" data-i18n="greeting">Bună, sunt</span>
+                <h1 class="hero-title" data-i18n="name">Sabou Sasha</h1>
+                <p class="hero-tagline" data-i18n="tagline">Construiesc prezențe digitale pentru afaceri locale din Baia Mare.</p>
+                
+                <div class="hero-buttons">
+                    <a href="#proiecte" class="btn btn-primary" data-i18n="btn_projects">Vezi Proiectele Mele</a>
+                    <a href="#contact" class="btn btn-outline" data-i18n="btn_contact">Hai să Vorbim</a>
+                </div>
+                
+                <div class="hero-stats">
+                    <div class="stat-item"><i class="fa-solid fa-check-circle"></i> <span data-i18n="stat_projects">4 proiecte finalizate</span></div>
+                    <div class="stat-item"><i class="fa-solid fa-bolt"></i> <span data-i18n="stat_delivery">Livrare în 5-20 zile</span></div>
+                    <div class="stat-item"><i class="fa-solid fa-location-dot"></i> <span data-i18n="stat_location">Baia Mare & Remote</span></div>
+                </div>
+            </div>
+            
+            <div class="hero-image fade-in" style="transition-delay: 0.2s;">
+                <div class="code-window">
+                    <div class="code-header">
+                        <div class="code-dots">
+                            <span class="dot-r"></span>
+                            <span class="dot-y"></span>
+                            <span class="dot-g"></span>
+                        </div>
+                        <div class="code-tab">portfolio.js</div>
+                    </div>
+                    <div class="code-body">
+<pre><code><span class="code-comment">// Building local business presence</span>
+<span class="code-kw">const</span> <span class="code-obj">developer</span> <span class="code-punct">=</span> {
+  <span class="code-prop">name:</span> <span class="code-str">'Sabou Sasha'</span>,
+  <span class="code-prop">location:</span> <span class="code-str">'Baia Mare, RO'</span>,
+  <span class="code-prop">focus:</span> [<span class="code-str">'Restaurants'</span>, <span class="code-str">'Real Estate'</span>, <span class="code-str">'Clinics'</span>],
+  <span class="code-prop">stack:</span> [<span class="code-str">'HTML5'</span>, <span class="code-str">'CSS3'</span>, <span class="code-str">'JavaScript'</span>],
+  <span class="code-prop">tools:</span> [<span class="code-str">'Google Antigravity'</span>],
+  <span class="code-prop">buildSite</span><span class="code-punct">:</span> <span class="code-kw">async</span> (<span class="code-obj">clientRequirement</span>) <span class="code-kw">=></span> {
+    <span class="code-kw">return</span> <span class="code-kw">await</span> Antigravity.<span class="code-prop">generate</span>({
+      <span class="code-prop">fastDelivery:</span> <span class="code-kw">true</span>,
+      <span class="code-prop">pixelPerfect:</span> <span class="code-kw">true</span>,
+      <span class="code-prop">darkTheme:</span> <span class="code-kw">true</span>
+    });
+  }
+};<span class="cursor-blink"></span></code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section class="section-padding projects-section" id="proiecte">
+        <div class="container">
+            <h2 class="section-title fade-in" data-i18n="projects_title">Proiectele Mele</h2>
+            <p class="section-subtitle fade-in" data-i18n="projects_subtitle">Fiecare proiect este un site demonstrativ complet — funcțional, mobile-first și gata de livrat unui client real din Baia Mare.</p>
+            
+            <div class="projects-grid" id="projectsContainer">
+                <!-- Injected via JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Services & Pricing Section -->
+    <section class="section-padding services-section" id="servicii">
+        <div class="container">
+            <h2 class="section-title fade-in" data-i18n="services_title">Ce Ofer & Prețuri</h2>
+            <p class="section-subtitle fade-in" data-i18n="services_subtitle">Prețuri transparente, fără surprize. Toate proiectele includ design mobile-first, cod curat și suport după livrare.</p>
+            
+            <div class="pricing-grid fade-in" id="packagesContainer">
+                <!-- Injected via JS -->
+            </div>
+
+            <div class="compare-section fade-in">
+                <h3 class="compare-title" data-i18n="compare_title">Nu ești sigur ce pachet?</h3>
+                <div class="compare-table-wrapper">
+                    <table class="compare-table">
+                        <thead>
+                            <tr>
+                                <th>Caracteristică</th>
+                                <th data-i18n="pack_start">Starter</th>
+                                <th data-i18n="pack_biz">Business</th>
+                                <th data-i18n="pack_prem">Premium</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td data-i18n="c_secțiuni">Câte secțiuni?</td>
+                                <td data-i18n="c_s_sec">Până la 5</td>
+                                <td data-i18n="c_b_sec">Până la 10</td>
+                                <td data-i18n="c_p_sec">Nelimitat</td>
+                            </tr>
+                            <tr>
+                                <td data-i18n="c_funcționalități">Funcționalități avansate?</td>
+                                <td data-i18n="c_s_func">Nu</td>
+                                <td data-i18n="c_b_func">Da</td>
+                                <td data-i18n="c_p_func">Complex</td>
+                            </tr>
+                            <tr>
+                                <td data-i18n="c_mentenanță">Mentenanță inclusă?</td>
+                                <td data-i18n="c_s_ment">Nu</td>
+                                <td data-i18n="c_b_ment">Nu</td>
+                                <td data-i18n="c_p_ment">3 Luni Inclusă</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="faq-container fade-in" id="faqsContainer">
+                <!-- Injected via JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section class="section-padding skills-section" id="skills">
+        <div class="container">
+            <h2 class="section-title fade-in" data-i18n="skills_title">Cu Ce Lucrez</h2>
+            <p class="section-subtitle fade-in" data-i18n="skills_note">Folosesc Google Antigravity ca unealtă principală — ceea ce înseamnă că pot livra proiecte complexe rapid și la prețuri accesibile pentru afaceri locale.</p>
+            
+            <div class="skills-grid" id="skillsContainer">
+                <!-- Injected via JS -->
+            </div>
+
+            <div class="skills-note fade-in">
+                <p>💡 <span data-i18n="skills_note">Folosesc Google Antigravity ca unealtă principală — ceea ce înseamnă că pot livra proiecte complexe rapid și la prețuri accesibile pentru afaceri locale.</span></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Me Section -->
+    <section class="section-padding about-section" id="despre">
+        <div class="container">
+            <h2 class="section-title fade-in" data-i18n="about_title">Despre Mine</h2>
+            
+            <div class="about-grid">
+                <div class="about-image-wrapper fade-in">
+                    <div class="about-img-wrapper">
+                        <img src="images/hero_dev.png" alt="Sabou Sasha" class="about-profile-img">
+                    </div>
+                    <!-- Floating Badges -->
+                    <div class="floating-badge badge-1">
+                        <i class="fa-solid fa-mug-hot" style="color: #D17D39;"></i>
+                        <div>
+                            <strong style="display: block; font-size: 0.8rem;">Coffee Lover</strong>
+                            <span style="font-size: 0.7rem; color: var(--text-muted);">Fueling creativity</span>
+                        </div>
+                    </div>
+                    <div class="floating-badge badge-2">
+                        <i class="fa-solid fa-bolt" style="color: var(--primary-light);"></i>
+                        <div>
+                            <strong style="display: block; font-size: 0.8rem;">AI Powered</strong>
+                            <span style="font-size: 0.7rem; color: var(--text-muted);">Efficient Workflow</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="about-content fade-in" style="transition-delay: 0.2s;">
+                    <p data-i18n="about_txt1">Sunt Sabou Sasha, născut și educat în Baia Mare. Sunt pasionat de a ajuta afacerile noastre locale, de la restaurante la cabinete medicale, să își găsească vocea pe internet printr-o prezență online care inspiră profesionalism și încredere.</p>
+                    <p data-i18n="about_txt2">Abordarea mea e simplă: livrare rapidă, prețuri 100% transparente înainte să batem palma, și instrumente de lucru de top (în special instrumente AI pentru eficiență). Prefer să las rezultatele să vorbească.</p>
+                    <p data-i18n="about_txt3">Viziunea mea pe termen lung? Construirea unui ecosistem digital integrat pentru afacerile din Maramureș. Vreau să fim mândri de calitatea serviciilor online din zona noastră.</p>
+                    
+                    <div class="timeline" id="timelineContainer">
+                        <!-- Injected via JS -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="section-padding contact-section" id="contact">
+        <div class="container">
+            <h2 class="section-title fade-in" data-i18n="contact_title">Hai să Construim Ceva Împreună</h2>
+            <p class="section-subtitle fade-in" data-i18n="contact_note">Fie că ai o cafenea, o sală de fitness, o clinică sau o agenție imobiliară — hai să discutăm cum poate arăta prezența ta online.</p>
+            
+            <div class="contact-grid">
+                <div class="contact-info fade-in">
+                    <div class="contact-method">
+                        <div class="contact-icon"><i class="fa-solid fa-location-dot"></i></div>
+                        <div>
+                            <h3 data-i18n="contact_location">Baia Mare, Maramureș</h3>
+                            <p>Remote Work Available</p>
+                        </div>
+                    </div>
+                    <div class="contact-method">
+                        <div class="contact-icon"><i class="fa-solid fa-envelope"></i></div>
+                        <div>
+                            <h3>sashasabou@gmail.com</h3>
+                            <p data-i18n="contact_reply">Răspund în maxim 24h — de obicei mult mai repede.</p>
+                        </div>
+                    </div>
+                    <div class="contact-method">
+                        <div class="contact-icon"><i class="fa-solid fa-calendar-check"></i></div>
+                        <div>
+                            <h3 data-i18n="stat_delivery">Livrare în 5-20 zile</h3>
+                            <p>Rapid & Eficient</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="contact-form fade-in">
+                    <form id="portfolioContactForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="frmName" data-i18n="form_name">Nume</label>
+                                <input type="text" id="frmName" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="frmEmail" data-i18n="form_email">Email</label>
+                                <input type="email" id="frmEmail" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="frmType" data-i18n="form_type">Tipul Afacerii</label>
+                                <select id="frmType" class="form-control">
+                                    <option value="rest" data-i18n="type_rest">Restaurant/Cafenea</option>
+                                    <option value="fit" data-i18n="type_fit">Sală Fitness</option>
+                                    <option value="imob" data-i18n="type_imob">Imobiliare</option>
+                                    <option value="clin" data-i18n="type_clin">Clinică Medicală</option>
+                                    <option value="sal" data-i18n="type_sal">Salon Frumusețe</option>
+                                    <option value="auto" data-i18n="type_auto">Service Auto</option>
+                                    <option value="alt" data-i18n="type_alt" selected>Altele</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="frmPackage" data-i18n="form_package">Pachet de Interes</label>
+                                <select id="frmPackage" class="form-control">
+                                    <option value="starter" data-i18n="pack_start">Starter</option>
+                                    <option value="business" data-i18n="pack_biz">Business</option>
+                                    <option value="premium" data-i18n="pack_prem">Premium</option>
+                                    <option value="unsure" data-i18n="pack_unsure" selected>Nu știu încă</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="frmMsg" data-i18n="form_msg">Mesaj</label>
+                            <textarea id="frmMsg" class="form-control" data-i18n="form_msg_ph" placeholder="Spune-mi despre afacerea ta și ce îți dorești de la un site web..."></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block" style="width: 100%;" id="btnSubmitForm">
+                            <span data-i18n="btn_send">Trimite Mesajul</span>
+                            <i class="fa-solid fa-paper-plane"></i>
+                        </button>
+                    </form>
+
+                    <div id="form-success">
+                        <i class="fa-solid fa-circle-check"></i>
+                        <h3 data-i18n="success_msg">Mesajul a fost trimis! Te voi contacta cât de curând.</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <a href="#" class="logo footer-logo" data-i18n="logo">Sabou Sasha</a>
+            <div class="footer-socials">
+                <a href="https://www.linkedin.com/in/sasha-sabou-53063a3b0/" class="social-link"><i class="fa-brands fa-linkedin-in"></i></a>
+                <a href="https://github.com/slabasha-debug" class="social-link"><i class="fa-brands fa-github"></i></a>
+                <a href="https://www.instagram.com/s.sasha.18/" class="social-link"><i class="fa-brands fa-instagram"></i></a>
+            </div>
+            <p class="footer-copy" data-i18n="footer_copy">© 2026 Sabou Sasha — Baia Mare, România</p>
+            <p class="footer-note" data-i18n="footer_note">Construit cu Google Antigravity & multă cafea ☕</p>
+        </div>
+    </footer>
+
+    <a href="#" class="back-to-top" id="backToTop" aria-label="Back to top">
+        <i class="fa-solid fa-arrow-up"></i>
+    </a>
+
+    <!-- Application Logic -->
+    <script>
+        // 1. DATA & TRANSLATIONS
+        // Simulated language preference in memory
+        let currentLang = 'ro';
+        let isTransitioning = false;
+
+        const i18n = {
+            ro: {
+                logo: "Sabou Sasha",
+                nav_projects: "Proiecte",
+                nav_services: "Servicii",
+                nav_skills: "Competențe",
+                nav_about: "Despre",
+                nav_contact: "Contact",
+                greeting: "Bună, sunt",
+                name: "Sabou Sasha",
+                tagline: "Construiesc prezențe digitale pentru afaceri locale din Baia Mare.",
+                btn_projects: "Vezi Proiectele Mele",
+                btn_contact: "Hai să Vorbim",
+                stat_projects: "4 proiecte finalizate",
+                stat_delivery: "Livrare în 5-20 zile",
+                stat_location: "Baia Mare & Remote",
+                projects_title: "Proiectele Mele",
+                projects_subtitle: "Fiecare proiect este un site demonstrativ complet — funcțional, mobile-first și gata de livrat unui client real din Baia Mare.",
+                btn_live: "Vezi Live",
+                services_title: "Ce Ofer & Prețuri",
+                services_subtitle: "Prețuri transparente, fără surprize. Toate proiectele includ design mobile-first, cod curat și suport după livrare.",
+                btn_plan: "Alege Pachetul",
+                best_value: "Cel Mai Ales",
+                compare_title: "Nu ești sigur ce pachet?",
+                c_secțiuni: "Câte secțiuni?",
+                c_funcționalități: "Funcționalități avansate?",
+                c_mentenanță: "Mentenanță inclusă?",
+                c_s_sec: "Până la 5",
+                c_s_func: "Nu",
+                c_s_ment: "Nu",
+                c_b_sec: "Până la 10",
+                c_b_func: "Da",
+                c_b_ment: "Nu",
+                c_p_sec: "Nelimitat",
+                c_p_func: "Complex",
+                c_p_ment: "3 Luni Inclusă",
+                skills_title: "Cu Ce Lucrez",
+                skills_note: "Folosesc Google Antigravity ca unealtă principală — ceea ce înseamnă că pot livra proiecte complexe rapid și la prețuri accesibile pentru afaceri locale.",
+                about_title: "Despre Mine",
+                about_txt1: "Mă numesc Sabou Sasha, născut în Baia Mare. Sunt pasionat de programare, în special de progresul oferit de Inteligența Artificială, și încerc sa ajut afacerile locale să își găsească vocea pe internet printr-o prezență online care inspiră profesionalism și încredere.",
+                about_txt2: "Abordarea mea e simplă: livrare rapidă, prețuri 100% transparente înainte să batem palma, și instrumente de lucru de top (în special instrumente AI pentru eficiență). Prefer să las rezultatele să vorbească.",
+                about_txt3: "Viziunea mea pe termen lung? Construirea unui ecosistem digital integrat pentru afacerile din Maramureș și nu numai. Vreau să fim mândri de calitatea serviciilor online din zona noastră.",
+                contact_title: "Hai să Construim Ceva Împreună",
+                contact_location: "Baia Mare, Maramureș",
+                contact_reply: "Răspund în maxim 24h — de obicei mult mai repede.",
+                contact_note: "Fie că ai o cafenea, o sală de fitness, o clinică sau o agenție imobiliară — hai să discutăm cum poate arăta prezența ta online.",
+                form_name: "Nume",
+                form_email: "Email",
+                form_phone: "Telefon (Opțional)",
+                form_type: "Tipul Afacerii",
+                type_rest: "Restaurant/Cafenea",
+                type_fit: "Sală Fitness",
+                type_imob: "Imobiliare",
+                type_clin: "Clinică Medicală",
+                type_sal: "Salon Frumusețe",
+                type_auto: "Service Auto",
+                type_alt: "Altele",
+                form_package: "Pachet de Interes",
+                pack_start: "Starter",
+                pack_biz: "Business",
+                pack_prem: "Premium",
+                pack_unsure: "Nu știu încă",
+                form_msg: "Mesaj",
+                form_msg_ph: "Spune-mi despre afacerea ta și ce îți dorești de la un site web...",
+                btn_send: "Trimite Mesajul",
+                footer_copy: `© 2026 Sabou Sasha — Baia Mare, România`,
+                footer_note: "Construit cu Google Antigravity & multă cafea ☕",
+                success_msg: "Mesajul a fost trimis! Te voi contacta cât de curând."
+
+            },
+            en: {
+                logo: "Sabou Sasha",
+                nav_projects: "Projects",
+                nav_services: "Services",
+                nav_skills: "Skills",
+                nav_about: "About",
+                nav_contact: "Contact",
+                greeting: "Hi, I am",
+                name: "Sabou Sasha",
+                tagline: "I build digital presences for local businesses in Baia Mare.",
+                btn_projects: "View My Projects",
+                btn_contact: "Let's Talk",
+                stat_projects: "4 finished projects",
+                stat_delivery: "Delivery in 5-20 days",
+                stat_location: "Baia Mare & Remote",
+                projects_title: "My Projects",
+                projects_subtitle: "Each project is a fully-fledged demo site — functional, mobile-first, and ready to be delivered to a real client in Baia Mare.",
+                btn_live: "Live Preview",
+                services_title: "What I Offer & Pricing",
+                services_subtitle: "Transparent pricing with no surprises. All projects include mobile-first design, clean code, and post-delivery support.",
+                btn_plan: "Choose Plan",
+                best_value: "Most Popular",
+                compare_title: "Not sure which package?",
+                c_secțiuni: "How many sections?",
+                c_funcționalități: "Advanced features?",
+                c_mentenanță: "Maintenance included?",
+                c_s_sec: "Up to 5",
+                c_s_func: "No",
+                c_s_ment: "No",
+                c_b_sec: "Up to 10",
+                c_b_func: "Yes",
+                c_b_ment: "No",
+                c_p_sec: "Unlimited",
+                c_p_func: "Complex",
+                c_p_ment: "3 Months Included",
+                skills_title: "Tools I Use",
+                skills_note: "I use Google Antigravity as my primary tool — which means I can deliver complex projects rapidly and at accessible prices for local businesses.",
+                about_title: "About Me",
+                about_txt1: "My name is Sabou Sasha, born in Baia Mare. I am passionate about programming, especially the progress offered by Artificial Intelligence, and I try to help local businesses find their voice on the internet through an online presence that inspires professionalism and trust.",
+                about_txt2: "My approach is simple: fast delivery, 100% transparent pricing before we shake hands, and top-tier workflow tools (especially AI for efficiency). I prefer to let the results speak for themselves.",
+                about_txt3: "My long-term vision? Building an integrated digital ecosystem for Maramureș, and not only, businesses. I want us to be proud of the quality of online services in our region.",
+                contact_title: "Let's Build Something Together",
+                contact_location: "Baia Mare, Maramureș",
+                contact_reply: "I respond within 24h — usually much faster.",
+                contact_note: "Whether you run a cafe, a gym, a clinic, or a real estate agency — let's chat about how your online presence can look.",
+                form_name: "Name",
+                form_email: "Email",
+                form_phone: "Phone (Optional)",
+                form_type: "Business Type",
+                type_rest: "Restaurant/Cafe",
+                type_fit: "Gym/Fitness",
+                type_imob: "Real Estate",
+                type_clin: "Medical Clinic",
+                type_sal: "Beauty Salon",
+                type_auto: "Auto Service",
+                type_alt: "Other",
+                form_package: "Interested Package",
+                pack_start: "Starter",
+                pack_biz: "Business",
+                pack_prem: "Premium",
+                pack_unsure: "Not sure yet",
+                form_msg: "Message",
+                form_msg_ph: "Tell me about your business and what you want from your website...",
+                btn_send: "Send Message",
+                footer_copy: `© 2026 Sabou Sasha — Baia Mare, Romania`,
+                footer_note: "Built with Google Antigravity & lots of coffee ☕",
+                success_msg: "Message sent! I'll be in touch very soon."
+            }
+        };
+
+        const db = {
+            projects: [
+                {
+                    id: "rest",
+                    title: { ro: "Restaurant Someșana", en: "Somesana Restaurant" },
+                    category: { ro: "Restaurant & Cafenea", en: "Restaurant & Cafe" },
+                    description: { 
+                        ro: "Site complet cu meniu interactiv pe categorii, formular de rezervare cu validare, program dinamic care afișează dacă restaurantul e deschis acum, galerie cu lightbox și hartă Google Maps.",
+                        en: "Complete site with interactive categorized menu, validated booking form, dynamic schedule showing open/closed status, lightbox gallery, and Google Maps."
+                    },
+                    tags: ['HTML', 'CSS', 'JavaScript', 'Mobile-First'],
+                    color: "linear-gradient(135deg, #722F37, #3D1517)",
+                    icon: "fa-utensils",
+                    liveUrl: "https://restaurant-demo-gray-beta.vercel.app",
+                    features: {
+                        ro: ['Meniu pe categorii cu tab-uri', 'Formular rezervare cu validare', 'Program dinamic (Deschis/Închis)', 'Galerie cu lightbox', 'Google Maps embed'],
+                        en: ['Categorized tabbed menu', 'Validated booking form', 'Dynamic schedule (Open/Closed)', 'Lightbox gallery', 'Google Maps embed']
+                    },
+                    result: {
+                        ro: "Proiect demonstrativ — disponibil ca punct de plecare pentru orice restaurant din Baia Mare",
+                        en: "Demo project — available as a starting point for any restaurant in Baia Mare"
+                    }
+                },
+                {
+                    id: "gym",
+                    title: { ro: "PowerZone Gym", en: "PowerZone Gym" },
+                    category: { ro: "Sală de Fitness", en: "Fitness Gym" },
+                    description: { 
+                        ro: "Site high-energy cu orar săptămânal filtrabil, profiluri antrenori, abonamente cu toggle lunar/anual și reducere calculată automat, formular de înscriere cu conectare între secțiuni.",
+                        en: "High-energy site with filterable weekly schedule, trainer profiles, subscriptions with monthly/annual toggle and automatic discount, signup form."
+                    },
+                    tags: ['HTML', 'CSS', 'JavaScript', 'Animații', 'Dark Mode'],
+                    color: "linear-gradient(135deg, #0066FF, #003399)",
+                    icon: "fa-dumbbell",
+                    liveUrl: "https://gym-demo-chi.vercel.app",
+                    features: {
+                        ro: ['Orar filtrabil pe tip de clasă', 'Profiluri antrenori cu specializări', 'Toggle prețuri lunar/anual', 'Formular cu auto-completare', 'Animații scroll'],
+                        en: ['Filterable schedule by class type', 'Trainer profiles with specs', 'Monthly/annual price toggle', 'Auto-filling form', 'Scroll animations']
+                    },
+                    result: {
+                        ro: "Proiect demonstrativ — adaptat pentru orice sală de fitness sau studio din Maramureș",
+                        en: "Demo project — adapted for any gym or fitness studio in Maramureș"
+                    }
+                },
+                {
+                    id: "imob",
+                    title: { ro: "Imobiliare Nord", en: "North Real Estate" },
+                    category: { ro: "Agenție Imobiliară", en: "Real Estate Agency" },
+                    description: { 
+                        ro: "Platformă imobiliară cu 18 anunțuri fictive, filtrare avansată în timp real (preț, zonă, camere, suprafață), modal detalii proprietate cu galerie, formular contact agent și date dinamice.",
+                        en: "Real estate platform with 18 mock listings, advanced real-time filtering (price, zone, beds, sqft), property detail modal with gallery, dynamic agent forms."
+                    },
+                    tags: ['HTML', 'CSS', 'JavaScript', 'Date JSON', 'Filtrare Live'],
+                    color: "linear-gradient(135deg, #1B2A4A, #0D1829)",
+                    icon: "fa-building",
+                    liveUrl: "https://real-estate-demo-wheat.vercel.app",
+                    features: {
+                        ro: ['18 anunțuri cu date realiste', 'Filtre combinate în timp real', 'Modal proprietate cu galerie', 'Agenți cu statistici dinamice', 'Design premium navy & gold'],
+                        en: ['18 dummy realistic listings', 'Real-time combined filters', 'Property modal with gallery', 'Agents with dynamic stats', 'Premium navy & gold design']
+                    },
+                    result: {
+                        ro: "Proiect demonstrativ — conectabil cu date reale dintr-un scraper de piață imobiliară",
+                        en: "Demo project — connectable with real data from a real estate market scraper"
+                    }
+                },
+                {
+                    id: "clinic",
+                    title: { ro: "Dental Smile Baia Mare", en: "Dental Smile Baia Mare" },
+                    category: { ro: "Clinică Stomatologică", en: "Dental Clinic" },
+                    description: { 
+                        ro: "Site medical complet cu wizard de programare în 4 pași, calendar interactiv cu sloturi disponibile/ocupate, profiluri medici, recenzii cu rating detaliat și FAQ cu căutare în timp real.",
+                        en: "Complete medical site with 4-step booking wizard, interactive calendar with available/booked slots, doctor profiles, detailed rating reviews and live FAQ search."
+                    },
+                    tags: ['HTML', 'CSS', 'JavaScript', 'UX Complex', 'Wizard Multi-Step'],
+                    color: "linear-gradient(135deg, #0B6E7C, #064952)",
+                    icon: "fa-tooth",
+                    liveUrl: "https://dental-demo-theta.vercel.app",
+                    features: {
+                        ro: ['Wizard programare 4 pași', 'Calendar cu sloturi live', 'Profiluri medici interactive', 'FAQ cu căutare instant', 'Recenzii cu breakdown rating'],
+                        en: ['4-step booking wizard', 'Live slots calendar', 'Interactive doctor profiles', 'Instant FAQ search', 'Reviews with rating breakdown']
+                    },
+                    result: {
+                        ro: "Proiect demonstrativ — ideal pentru orice clinică medicală sau stomatologică din Baia Mare",
+                        en: "Demo project — ideal for any medical or dental clinic in Baia Mare"
+                    }
+                }
+            ],
+            packages: [
+                {
+                    id: "starter",
+                    name: { ro: "Pachet Starter", en: "Starter Package" },
+                    price: "800",
+                    desc: { 
+                        ro: "Site de prezentare simplu, până la 5 pagini, mobile-first, formular de contact, Google Maps.",
+                        en: "Simple presentation site, up to 5 pages, mobile-first, contact form, Google Maps."
+                    },
+                    time: { ro: "livrare în 5 zile", en: "5 days delivery" },
+                    features: {
+                        ro: ["Design Mobile-First", "Până la 5 pagini", "Formular contact funcțional", "Optimizare Viteză de Încărcare", "Google Maps Embed"],
+                        en: ["Mobile-First Design", "Up to 5 pages", "Functional Contact Form", "Load Speed Optimization", "Google Maps Embed"]
+                    }
+                },
+                {
+                    id: "business",
+                    name: { ro: "Pachet Business", en: "Business Package" },
+                    price: "1.500",
+                    isBest: true,
+                    desc: { 
+                        ro: "Site complet cu funcționalități avansate (rezervări, filtre, galerie, animații), până la 10 secțiuni.",
+                        en: "Complete site with advanced features (bookings, filters, gallery, animations), up to 10 sections."
+                    },
+                    time: { ro: "livrare în 10 zile", en: "10 days delivery" },
+                    features: {
+                        ro: ["Toate funcțiile Starter", "Funcționalități AI/Complexe", "Până la 10 Secțiuni/Pagini", "Setup SEO de Bază", "Galerii & Animații Integrate"],
+                        en: ["All Starter Features", "Complex/AI Functionality", "Up to 10 Sections/Pages", "Basic SEO Setup", "Galleries & Integrated Animations"]
+                    }
+                },
+                {
+                    id: "premium",
+                    name: { ro: "Pachet Premium", en: "Premium Package" },
+                    price: "3.000",
+                    desc: { 
+                        ro: "Soluție digitală completă cu date dinamice, integrări, design personalizat, pregătită pentru scalare.",
+                        en: "Complete digital solution with dynamic data, integrations, custom design, ready for scale."
+                    },
+                    time: { ro: "livrare în 20 zile", en: "20 days delivery" },
+                    features: {
+                        ro: ["Design Complet Personalizat", "Baze de date JavaScript/JSON", "Integrări complexe (Wizard)", "Mentenanță 3 luni inclusă", "Cod sursă predat integral"],
+                        en: ["Fully Custom Design", "JavaScript/JSON Databases", "Complex Integrations (Wizard)", "3 Months Maintenance Included", "Source code fully handed over"]
+                    }
+                }
+            ],
+            skills: [
+                {
+                    category: { ro: "Design & Frontend", en: "Design & Frontend" },
+                    items: ["HTML5", "CSS3", "JavaScript", "Mobile-First", "Animații", "Dark/Light Mode", "UI/UX"]
+                },
+                {
+                    category: { ro: "Tools & Workflow", en: "Tools & Workflow" },
+                    items: ["Google Antigravity", "Figma", "VS Code", "Git", "Chrome DevTools"]
+                },
+                {
+                    category: { ro: "Specializations", en: "Specializations" },
+                    items: ["Restaurante", "Săli de fitness", "Imobiliare", "Clinici medicale", "Afaceri locale România"]
+                }
+            ],
+            timeline: [
+                {
+                    year: "Q1 2025",
+                    title: { ro: "Am început să învăț development", en: "Started learning development" }
+                },
+                {
+                    year: "Q3 2025",
+                    title: { ro: "Primul proiect demonstrativ finalizat", en: "First demo project finished" }
+                },
+                {
+                    year: "Q4 2025",
+                    title: { ro: "Primul client real din Baia Mare", en: "First real client from Baia Mare" }
+                },
+                {
+                    year: "Q1 2026",
+                    title: { ro: "Prima soluție cu date în timp real (APIs)", en: "First real-time data solution (APIs)" }
+                }
+            ],
+            faqs: [
+                {
+                    q: { ro: "Cum funcționează procesul?", en: "How does the process work?" },
+                    a: { ro: "Totul începe cu o discuție pentru a înțelege afacerea ta. Apoi îți propun planul, dezvoltăm site-ul și după aprobare (feedback-ul tău e cheia), lansăm versiunea live.", en: "It all starts with a chat to understand your business. Then I propose a plan, build the site, and after your approval (feedback is key), we launch the live version." }
+                },
+                {
+                    q: { ro: "Cât durează un proiect?", en: "How long does a project take?" },
+                    a: { ro: "În funcție de complexitate: 5 zile pentru prezentări simple, și până la 20 de zile pentru platforme mari, interactive.", en: "Depending on complexity: 5 days for simple presentation, and up to 20 days for large, interactive platforms." }
+                },
+                {
+                    q: { ro: "Pot să editez site-ul singur după?", en: "Can I edit the site myself later?" },
+                    a: { ro: "Depinde de pachet. Sistemele simple necesită unelte ca VSCode, dar pot implementa un panou vizual simplu sau scrie texte din fișiere pentru scalare.", en: "Depends on the package. Simple ones might need VSCode, but I can adapt variables so text changes are easy for you later." }
+                },
+                {
+                    q: { ro: "Oferi mentenanță lunară?", en: "Do you offer monthly maintenance?" },
+                    a: { ro: "Da, la Pachetul Premium ai 3 luni incluse gratuit. După, putem colabora pe baza unui pachet minimal pentru actualizări ocazionale și siguranță.", en: "Yes, the Premium tier has 3 months included. After that, we can collaborate on a minimal tier for occasional updates and security." }
+                },
+                {
+                    q: { ro: "Lucrezi și cu clienți în afara Băii Mari?", en: "Do you work with clients outside Baia Mare?" },
+                    a: { ro: "Sigur! Deși accentul meu este pe sprijinirea pieței din Maramureș, colaborez oricând și Remote pe întreg teritoriul României.", en: "Of course! Although my focus is on helping the Maramureș market, I gladly collaborate remotely across Romania." }
+                }
+            ]
+        };
+
+        // 2. CORE LOGIC
+        
+        // Custom Cursor
+        const cursor = document.getElementById('cursorDot');
+        
+        if (window.matchMedia("(min-width: 769px)").matches) {
+            document.addEventListener('mousemove', (e) => {
+                cursor.style.left = e.clientX + 'px';
+                cursor.style.top = e.clientY + 'px';
+            });
+
+            document.addEventListener('mousedown', () => {
+                cursor.style.transform = 'translate(-50%, -50%) scale(0.8)';
+            });
+            document.addEventListener('mouseup', () => {
+                cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+            });
+
+            // Interactive elements hover state
+            const addCursorHover = () => {
+                document.querySelectorAll('a, button, input, textarea, select, .interactive').forEach(el => {
+                    if(!el.dataset.cursorBound) {
+                        el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+                        el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+                        el.dataset.cursorBound = "true";
+                    }
+                });
+            };
+            addCursorHover();
+        }
+
+        // Scroll Progress & Navbar & Back to Top
+        const navbar = document.getElementById('navbar');
+        const progressBar = document.getElementById('scroll-progress');
+        const backToTop = document.getElementById('backToTop');
+
+        window.addEventListener('scroll', () => {
+            // Navbar
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+
+            // Progress bar
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            progressBar.style.width = scrolled + "%";
+
+            // Back to top
+            if (window.scrollY > 400) {
+                backToTop.classList.add('visible');
+            } else {
+                backToTop.classList.remove('visible');
+            }
+        });
+
+        // Mobile Menu
+        const hamburger = document.getElementById('hamburger');
+        const navLinks = document.getElementById('navLinks');
+        const navItems = document.querySelectorAll('.nav-link');
+
+        hamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            const icon = hamburger.querySelector('i');
+            if(navLinks.classList.contains('active')){
+                icon.classList.replace('fa-bars', 'fa-times');
+            } else {
+                icon.classList.replace('fa-times', 'fa-bars');
+            }
+        });
+
+        navItems.forEach(item => {
+            item.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                hamburger.querySelector('i').classList.replace('fa-times', 'fa-bars');
+            });
+        });
+
+        // Intersection Observer logic for animations
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.15
+        };
+
+        const faderObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if(entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        function observeElements() {
+            document.querySelectorAll('.fade-in:not(.visible)').forEach(el => {
+                faderObserver.observe(el);
+            });
+        }
+
+        // Translation Engine
+        function updateDOMTexts() {
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (i18n[currentLang] && i18n[currentLang][key]) {
+                    el.innerHTML = i18n[currentLang][key];
+                }
+            });
+        }
+
+        function setLang(lang) {
+            if(currentLang === lang || isTransitioning) return;
+            isTransitioning = true;
+            currentLang = lang;
+            
+            // UI Toggle update
+            document.getElementById('btn-ro').classList.toggle('active', lang === 'ro');
+            document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+
+            // Fade effect 
+            document.body.style.opacity = 0;
+            
+            setTimeout(() => {
+                updateDOMTexts();
+                renderProjects();
+                renderPackages();
+                renderFaqs();
+                renderSkills();
+                renderTimeline();
+                
+                document.body.style.opacity = 1;
+                
+                setTimeout(() => {
+                    isTransitioning = false;
+                }, 300); // Wait for fade in
+            }, 300); // Wait for fade out
+            
+            document.body.style.transition = 'opacity 0.3s ease';
+        }
+
+        // Render Data Sections
+        function renderProjects() {
+            const container = document.getElementById('projectsContainer');
+            container.innerHTML = '';
+            
+            db.projects.forEach((proj, index) => {
+                const card = document.createElement('div');
+                card.className = 'project-card fade-in';
+                card.style.setProperty('--card-bg', proj.color);
+                card.style.transitionDelay = `${index * 0.15}s`;
+                
+                let featuresHtml = '';
+                proj.features[currentLang].forEach(f => {
+                    featuresHtml += `<li><i class="fa-solid fa-check"></i> ${f}</li>`;
+                });
+                
+                let tagsHtml = '';
+                proj.tags.forEach(t => {
+                    tagsHtml += `<span>${t}</span>`;
+                });
+
+                card.innerHTML = `
+                    <div class="project-content">
+                        <div class="project-header">
+                            <span class="project-category">${proj.category[currentLang]}</span>
+                            <div class="project-icon"><i class="fa-solid ${proj.icon}"></i></div>
+                        </div>
+                        <h3 class="project-title">${proj.title[currentLang]}</h3>
+                        <p class="project-desc">${proj.description[currentLang]}</p>
+                        
+                        <ul class="project-features">
+                            ${featuresHtml}
+                        </ul>
+                        
+                        <div class="project-tags">
+                            ${tagsHtml}
+                        </div>
+                    </div>
+                    <div class="project-bottom">
+                        <a href="${proj.liveUrl}" target="_blank" class="btn btn-outline" style="width: fit-content;" data-i18n="btn_live">${i18n[currentLang].btn_live} <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                        <span class="project-result">${proj.result[currentLang]}</span>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+
+            // Re-observe injected elements
+            observeElements();
+            if (typeof addCursorHover === 'function') addCursorHover();
+        }
+
+        function renderPackages() {
+            const container = document.getElementById('packagesContainer');
+            container.innerHTML = '';
+
+            db.packages.forEach((pkg, index) => {
+                const card = document.createElement('div');
+                card.className = `pricing-card ${pkg.isBest ? 'best-value' : ''}`;
+                card.style.transitionDelay = `${index * 0.1}s`;
+                
+                let badgeHtml = pkg.isBest ? `<div class="best-badge" data-i18n="best_value">${i18n[currentLang].best_value}</div>` : '';
+                
+                let featuresHtml = '';
+                pkg.features[currentLang].forEach(f => {
+                    featuresHtml += `<li><i class="fa-solid fa-check"></i> ${f}</li>`;
+                });
+
+                card.innerHTML = `
+                    ${badgeHtml}
+                    <h3 class="pricing-name">${pkg.name[currentLang]}</h3>
+                    <div class="pricing-price">${pkg.price} <span>RON</span></div>
+                    <p class="pricing-desc">${pkg.desc[currentLang]}</p>
+                    
+                    <ul class="pricing-features">
+                        ${featuresHtml}
+                    </ul>
+                    
+                    <div class="pricing-time"><i class="fa-regular fa-clock"></i> ${pkg.time[currentLang]}</div>
+                    
+                    <a href="#contact" class="btn ${pkg.isBest ? 'btn-primary' : 'btn-outline'} pricing-btn" onclick="selectPackageForContact('${pkg.id}')" data-i18n="btn_plan">${i18n[currentLang].btn_plan}</a>
+                `;
+                container.appendChild(card);
+            });
+            if (typeof addCursorHover === 'function') addCursorHover();
+        }
+
+        function selectPackageForContact(pkgId) {
+            // This function will be defined properly when Contact section is added
+            const selectElement = document.getElementById('frmPackage');
+            if (selectElement) {
+                selectElement.value = pkgId;
+            }
+        }
+
+        function renderFaqs() {
+            const container = document.getElementById('faqsContainer');
+            container.innerHTML = '';
+
+            db.faqs.forEach((faq) => {
+                const item = document.createElement('div');
+                item.className = 'faq-item';
+                
+                item.innerHTML = `
+                    <button class="faq-question">
+                        <span>${faq.q[currentLang]}</span>
+                        <i class="fa-solid fa-chevron-down faq-icon"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">${faq.a[currentLang]}</div>
+                    </div>
+                `;
+                
+                // Add accordion logic
+                const btn = item.querySelector('.faq-question');
+                const answer = item.querySelector('.faq-answer');
+                
+                btn.addEventListener('click', () => {
+                    const isActive = item.classList.contains('active');
+                    
+                    // Close all others
+                    document.querySelectorAll('.faq-item').forEach(el => {
+                        el.classList.remove('active');
+                        el.querySelector('.faq-answer').style.maxHeight = null;
+                    });
+                    
+                    if (!isActive) {
+                        item.classList.add('active');
+                        answer.style.maxHeight = answer.scrollHeight + "px";
+                    }
+                });
+                
+                container.appendChild(item);
+            });
+            if (typeof addCursorHover === 'function') addCursorHover();
+        }
+
+        function renderSkills() {
+            const container = document.getElementById('skillsContainer');
+            container.innerHTML = '';
+
+            db.skills.forEach((cat, index) => {
+                const box = document.createElement('div');
+                box.className = 'skills-box fade-in';
+                box.style.transitionDelay = `${index * 0.1}s`;
+                
+                let icon = 'fa-code';
+                if (cat.category.en === 'Tools & Workflow') icon = 'fa-hammer';
+                if (cat.category.en === 'Specializations') icon = 'fa-star';
+
+                let itemsHtml = '';
+                cat.items.forEach(item => {
+                    itemsHtml += `<span class="skill-pill">${item}</span>`;
+                });
+
+                box.innerHTML = `
+                    <h3 class="skills-cat"><i class="fa-solid ${icon}"></i> ${cat.category[currentLang]}</h3>
+                    <div class="skills-list">
+                        ${itemsHtml}
+                    </div>
+                `;
+                container.appendChild(box);
+            });
+        }
+
+        function renderTimeline() {
+            const container = document.getElementById('timelineContainer');
+            container.innerHTML = '';
+
+            db.timeline.forEach((item, index) => {
+                const div = document.createElement('div');
+                div.className = 'timeline-item fade-in';
+                div.style.transitionDelay = `${index * 0.1}s`;
+                
+                div.innerHTML = `
+                    <span class="tm-year">${item.year}</span>
+                    <h4 class="tm-title">${item.title[currentLang]}</h4>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        // Initializer
+        document.addEventListener('DOMContentLoaded', () => {
+            updateDOMTexts();
+            renderProjects();
+            renderPackages();
+            renderFaqs();
+            renderSkills();
+            renderTimeline();
+            observeElements();
+            setupContactForm();
+        });
+
+        function setupContactForm() {
+            const form = document.getElementById('portfolioContactForm');
+            const success = document.getElementById('form-success');
+            
+            if (!form) return;
+
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                
+                // Mimic submission
+                const btn = document.getElementById('btnSubmitForm');
+                const originalText = btn.innerHTML;
+                
+                btn.disabled = true;
+                btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Sending...';
+                
+                setTimeout(() => {
+                    form.style.display = 'none';
+                    success.style.display = 'block';
+                }, 1500);
+            });
+        }
+
+    </script>
+</body>
+</html>
