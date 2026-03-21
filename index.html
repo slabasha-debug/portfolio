@@ -6,14 +6,16 @@
     <title>Sabou Sasha | Web Developer</title>
     
     <!-- Security Meta Tags -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; script-src 'self' 'sha256-S8APiJz4AYcZSIuT7WHJwVd8EMuvkKcJBeF5dWfRW+4='; connect-src 'self' https://formspree.io; img-src 'self' data: https:; object-src 'none'; frame-ancestors 'none'; base-uri 'none';">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; script-src 'self' 'sha256-m8scK5eAVNgxNbvl4JwUid5N15RmpkSTfelrKJXCrR4='; connect-src 'self' https://formspree.io; img-src 'self' data: https:; object-src 'none'; frame-ancestors 'none'; base-uri 'none';">
     <meta name="referrer" content="strict-origin-when-cross-origin">
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap" as="style">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet" id="google-fonts-link" media="print">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap"></noscript>
     
     <!-- Font Awesome (Async Load for Performance) -->
     <link rel="preload" id="fa-link" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style">
@@ -51,7 +53,7 @@
     <section class="hero" id="acasa">
         <div class="hero-blob"></div>
         <div class="container hero-grid">
-            <div class="hero-content hero-fade-in">
+            <div class="hero-content">
                 <span class="hero-greeting" data-i18n="greeting">Bună, sunt</span>
                 <h1 class="hero-title" data-i18n="name">Sabou Sasha</h1>
                 <p class="hero-tagline" data-i18n="tagline">Construiesc prezențe digitale pentru afaceri locale din Baia Mare.</p>
@@ -68,7 +70,7 @@
                 </div>
             </div>
             
-            <div class="hero-image hero-fade-in" style="animation-delay: 0.2s;">
+            <div class="hero-image">
                 <div class="code-window">
                     <div class="code-header">
                         <div class="code-dots">
@@ -845,6 +847,12 @@ document.addEventListener('DOMContentLoaded', () => {
     if(faLink) {
         faLink.rel = 'stylesheet';
     }
+    // Google Fonts async load CSP compliant
+    const gfLink = document.getElementById('google-fonts-link');
+    if(gfLink) {
+        gfLink.media = 'all';
+    }
+
 });
 </script>
 </body>
