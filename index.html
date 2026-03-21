@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sabou Sasha | Web Developer</title>
     
+    <!-- Security Meta Tags -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; script-src 'self' 'unsafe-inline'; connect-src 'self' https://formspree.io; img-src 'self' data: https:;">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -36,9 +41,6 @@
             
             <div class="nav-links" id="navLinks">
                 <a href="#proiecte" class="nav-link" data-i18n="nav_projects">Proiecte</a>
-                <a href="#servicii" class="nav-link" data-i18n="nav_services">Servicii</a>
-                <a href="#skills" class="nav-link" data-i18n="nav_skills">Competențe</a>
-                <a href="#despre" class="nav-link" data-i18n="nav_about">Despre</a>
                 <a href="#contact" class="nav-link" data-i18n="nav_contact">Contact</a>
             </div>
         </div>
@@ -109,113 +111,7 @@
         </div>
     </section>
 
-    <!-- Services & Pricing Section -->
-    <section class="section-padding services-section" id="servicii">
-        <div class="container">
-            <h2 class="section-title fade-in" data-i18n="services_title">Ce Ofer & Prețuri</h2>
-            <p class="section-subtitle fade-in" data-i18n="services_subtitle">Prețuri transparente, fără surprize. Toate proiectele includ design mobile-first, cod curat și suport după livrare.</p>
-            
-            <div class="pricing-grid fade-in" id="packagesContainer">
-                <!-- Injected via JS -->
-            </div>
 
-            <div class="compare-section fade-in">
-                <h3 class="compare-title" data-i18n="compare_title">Nu ești sigur ce pachet?</h3>
-                <div class="compare-table-wrapper">
-                    <table class="compare-table">
-                        <thead>
-                            <tr>
-                                <th>Caracteristică</th>
-                                <th data-i18n="pack_start">Starter</th>
-                                <th data-i18n="pack_biz">Business</th>
-                                <th data-i18n="pack_prem">Premium</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td data-i18n="c_secțiuni">Câte secțiuni?</td>
-                                <td data-i18n="c_s_sec">Până la 5</td>
-                                <td data-i18n="c_b_sec">Până la 10</td>
-                                <td data-i18n="c_p_sec">Nelimitat</td>
-                            </tr>
-                            <tr>
-                                <td data-i18n="c_funcționalități">Funcționalități avansate?</td>
-                                <td data-i18n="c_s_func">Nu</td>
-                                <td data-i18n="c_b_func">Da</td>
-                                <td data-i18n="c_p_func">Complex</td>
-                            </tr>
-                            <tr>
-                                <td data-i18n="c_mentenanță">Mentenanță inclusă?</td>
-                                <td data-i18n="c_s_ment">Nu</td>
-                                <td data-i18n="c_b_ment">Nu</td>
-                                <td data-i18n="c_p_ment">3 Luni Inclusă</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <div class="faq-container fade-in" id="faqsContainer">
-                <!-- Injected via JS -->
-            </div>
-        </div>
-    </section>
-
-    <!-- Skills Section -->
-    <section class="section-padding skills-section" id="skills">
-        <div class="container">
-            <h2 class="section-title fade-in" data-i18n="skills_title">Cu Ce Lucrez</h2>
-            <p class="section-subtitle fade-in" data-i18n="skills_note">Folosesc Google Antigravity ca unealtă principală — ceea ce înseamnă că pot livra proiecte complexe rapid și la prețuri accesibile pentru afaceri locale.</p>
-            
-            <div class="skills-grid" id="skillsContainer">
-                <!-- Injected via JS -->
-            </div>
-
-            <div class="skills-note fade-in">
-                <p>💡 <span data-i18n="skills_note">Folosesc Google Antigravity ca unealtă principală — ceea ce înseamnă că pot livra proiecte complexe rapid și la prețuri accesibile pentru afaceri locale.</span></p>
-            </div>
-        </div>
-    </section>
-
-    <!-- About Me Section -->
-    <section class="section-padding about-section" id="despre">
-        <div class="container">
-            <h2 class="section-title fade-in" data-i18n="about_title">Despre Mine</h2>
-            
-            <div class="about-grid">
-                <div class="about-image-wrapper fade-in">
-                    <div class="about-img-wrapper">
-                        <img src="images/hero_dev.png" alt="Sabou Sasha" class="about-profile-img" loading="lazy">
-                    </div>
-                    <!-- Floating Badges -->
-                    <div class="floating-badge badge-1">
-                        <i class="fa-solid fa-mug-hot" style="color: #D17D39;"></i>
-                        <div>
-                            <strong style="display: block; font-size: 0.8rem;">Coffee Lover</strong>
-                            <span style="font-size: 0.7rem; color: var(--text-muted);">Fueling creativity</span>
-                        </div>
-                    </div>
-                    <div class="floating-badge badge-2">
-                        <i class="fa-solid fa-bolt" style="color: var(--primary-light);"></i>
-                        <div>
-                            <strong style="display: block; font-size: 0.8rem;">AI Powered</strong>
-                            <span style="font-size: 0.7rem; color: var(--text-muted);">Efficient Workflow</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="about-content fade-in" style="transition-delay: 0.2s;">
-                    <p data-i18n="about_txt1">Sunt Sabou Sasha, născut și educat în Baia Mare. Sunt pasionat de a ajuta afacerile noastre locale, de la restaurante la cabinete medicale, să își găsească vocea pe internet printr-o prezență online care inspiră profesionalism și încredere.</p>
-                    <p data-i18n="about_txt2">Abordarea mea e simplă: livrare rapidă, prețuri 100% transparente înainte să batem palma, și instrumente de lucru de top (în special instrumente AI pentru eficiență). Prefer să las rezultatele să vorbească.</p>
-                    <p data-i18n="about_txt3">Viziunea mea pe termen lung? Construirea unui ecosistem digital integrat pentru afacerile din Maramureș. Vreau să fim mândri de calitatea serviciilor online din zona noastră.</p>
-                    
-                    <div class="timeline" id="timelineContainer">
-                        <!-- Injected via JS -->
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
 
     <!-- Contact Section -->
     <section class="section-padding contact-section" id="contact">
@@ -249,21 +145,21 @@
                 </div>
 
                 <div class="contact-form fade-in">
-                    <form id="portfolioContactForm">
+                    <form id="portfolioContactForm" action="https://formspree.io/f/mjgadbpp" method="POST">
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="frmName" data-i18n="form_name">Nume</label>
-                                <input type="text" id="frmName" class="form-control" required>
+                                <input type="text" id="frmName" name="Nume" class="form-control" required>
                             </div>
                             <div class="form-group">
                                 <label for="frmEmail" data-i18n="form_email">Email</label>
-                                <input type="email" id="frmEmail" class="form-control" required>
+                                <input type="email" id="frmEmail" name="Email" class="form-control" required>
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="frmType" data-i18n="form_type">Tipul Afacerii</label>
-                                <select id="frmType" class="form-control">
+                                <select id="frmType" name="Tip_Afacere" class="form-control">
                                     <option value="rest" data-i18n="type_rest">Restaurant/Cafenea</option>
                                     <option value="fit" data-i18n="type_fit">Sală Fitness</option>
                                     <option value="imob" data-i18n="type_imob">Imobiliare</option>
@@ -275,7 +171,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="frmPackage" data-i18n="form_package">Pachet de Interes</label>
-                                <select id="frmPackage" class="form-control">
+                                <select id="frmPackage" name="Pachet_Interes" class="form-control">
                                     <option value="starter" data-i18n="pack_start">Starter</option>
                                     <option value="business" data-i18n="pack_biz">Business</option>
                                     <option value="premium" data-i18n="pack_prem">Premium</option>
@@ -285,7 +181,7 @@
                         </div>
                         <div class="form-group">
                             <label for="frmMsg" data-i18n="form_msg">Mesaj</label>
-                            <textarea id="frmMsg" class="form-control" data-i18n="form_msg_ph" placeholder="Spune-mi despre afacerea ta și ce îți dorești de la un site web..."></textarea>
+                            <textarea id="frmMsg" name="Mesaj" class="form-control" data-i18n="form_msg_ph" placeholder="Spune-mi despre afacerea ta și ce îți dorești de la un site web..."></textarea>
                         </div>
                         <button type="submit" class="btn btn-primary btn-block" style="width: 100%;" id="btnSubmitForm">
                             <span data-i18n="btn_send">Trimite Mesajul</span>
@@ -772,7 +668,7 @@ ${tagsHtml}
 </div>
 </div>
 <div class="project-bottom">
-<a href="${proj.liveUrl}" target="_blank" class="btn btn-outline" style="width: fit-content;" data-i18n="btn_live">${i18n[currentLang].btn_live}<i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+<a href="${proj.liveUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-outline" style="width: fit-content;" data-i18n="btn_live">${i18n[currentLang].btn_live}<i class="fa-solid fa-arrow-up-right-from-square"></i></a>
 <span class="project-result">${proj.result[currentLang]}</span>
 </div>
 `;
@@ -902,16 +798,37 @@ function setupContactForm(){
 const form = document.getElementById('portfolioContactForm');
 const success = document.getElementById('form-success');
 if(!form)return;
-form.addEventListener('submit',(e)=>{
+form.addEventListener('submit',async (e)=>{
 e.preventDefault();
 const btn = document.getElementById('btnSubmitForm');
 const originalText = btn.innerHTML;
 btn.disabled = true;
-btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Sending...';
-setTimeout(()=>{
-form.style.display = 'none';
-success.style.display = 'block';
-},1500);
+btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Trimitem...';
+
+try {
+    const data = new FormData(form);
+    const response = await fetch(form.action, {
+        method: form.method,
+        body: data,
+        headers: {
+            'Accept': 'application/json'
+        }
+    });
+    
+    if (response.ok) {
+        form.style.display = 'none';
+        success.style.display = 'block';
+        form.reset();
+    } else {
+        alert("A apărut o eroare la trimitere. Te rog să încerci din nou!");
+        btn.disabled = false;
+        btn.innerHTML = originalText;
+    }
+} catch (error) {
+    alert("Oups! A apărut o problemă de rețea. Te rog să încerci din nou!");
+    btn.disabled = false;
+    btn.innerHTML = originalText;
+}
 });
 }</script>
 </body>
